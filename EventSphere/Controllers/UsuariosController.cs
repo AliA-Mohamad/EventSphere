@@ -1,4 +1,5 @@
 ﻿using EventSphere.Data;
+using EventSphere.Interfaces;
 using EventSphere.Models;
 using EventSphere.Models.DTOs.Usuarios;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,12 @@ namespace EventSphere.Controllers;
 public class UsuariosController : ControllerBase
 {
     private readonly ApplicationDbContext _db;
-    public UsuariosController(ApplicationDbContext db)
+    private readonly IPasswordService _passwordService;
+
+    public UsuariosController(ApplicationDbContext db, IPasswordService passwordService)
     {
         _db = db;
+        _passwordService = passwordService;
     }
 
     [HttpPost("Registrar")]
@@ -28,7 +32,7 @@ public class UsuariosController : ControllerBase
         {
             Nome = dto.Nome,
             Email = dto.Email,
-            Senha = dto.Senha
+            Senha = _passwordService.GerarHashSenha(dto.Senha)
         };
 
         _db.Usuarios.Add(usuario);

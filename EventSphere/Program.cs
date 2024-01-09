@@ -1,4 +1,6 @@
 using EventSphere.Data;
+using EventSphere.Interfaces;
+using EventSphere.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Dependencias 
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 // Configuração do banco de dados
 builder.Services.AddDbContext<ApplicationDbContext>(option => {
