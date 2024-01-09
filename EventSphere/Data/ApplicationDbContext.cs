@@ -9,5 +9,5 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<UsuariosModel> Usuarios { get; set; }
     public DbSet<EventosModel> Eventos { get; set; }
-
+    public DbSet<InscricoesEventoModel> InscricoesEvento { get; set;}  
 }

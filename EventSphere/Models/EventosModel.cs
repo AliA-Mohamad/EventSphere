@@ -7,7 +7,6 @@
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public string DataInicio  { get; set; }
-        public string Datafim { get; set; }
-
+        public string DataFim { get; set; }
     }
 }
