@@ -71,15 +71,15 @@ namespace EventSphere.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("senha")
+                    b.Property<string>("Senha")
                         .IsRequired()
                         .HasColumnType("longtext");
 

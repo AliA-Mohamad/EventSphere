@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventSphere.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240109083635_teste")]
-    partial class teste
+    [Migration("20240109115633_MigrationFirst")]
+    partial class MigrationFirst
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,15 +74,15 @@ namespace EventSphere.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("senha")
+                    b.Property<string>("Senha")
                         .IsRequired()
                         .HasColumnType("longtext");
 
