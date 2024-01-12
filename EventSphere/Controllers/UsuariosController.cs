@@ -27,10 +27,7 @@ public class UsuariosController : ControllerBase
     public async Task<IActionResult> Registrar([FromBody] RegistrarDto dto)
     {
         if (_db.Usuarios.Any(u => u.Email == dto.Email))
-        {
             return BadRequest("Usuario ja existe");
-
-        }
 
         var usuario = new UsuariosModel
         {
@@ -51,9 +48,7 @@ public class UsuariosController : ControllerBase
         var usuario = _db.Usuarios.FirstOrDefault(u => u.Email == loginDto.Email);
 
         if (usuario == null || !_passwordService.VerificarSenha(loginDto.Senha, usuario.Senha))
-        {
             return Unauthorized("Credencais invalidas.");
-        }
 
         var token = _tokenService.GerarToken(usuario);
         return Ok(new { Token = token });
@@ -64,21 +59,30 @@ public class UsuariosController : ControllerBase
     public IActionResult AlterarSenha([FromBody] AlterarSenhaDto alterarSenhaDto)
     {
         var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-        var usuario = _db.Usuarios.FirstOrDefault(u => u.Email ==  userEmail);
-
-        if (usuario == null)
-        {
-            return NotFound("Usuário não encontrado.");
-        }
+        var usuario = _db.Usuarios.FirstOrDefault(u => u.Email == userEmail);
 
         if (!_passwordService.VerificarSenha(alterarSenhaDto.SenhaAtual, usuario.Senha))
-        {
             return BadRequest("Senha atual incorreta.");
-        }
 
         usuario.Senha = _passwordService.GerarHashSenha(alterarSenhaDto.NovaSenha);
         _db.SaveChanges();
 
         return Ok("Senha alterada com sucesso.");
+    }
+
+    [Authorize]
+    [HttpDelete]
+    public IActionResult DeletarUsuario([FromBody] SenhaDto senhaDto)
+    {
+        var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        var usuario = _db.Usuarios.FirstOrDefault(u => u.Email == userEmail);
+
+        if(!_passwordService.VerificarSenha(senhaDto.Senha, usuario.Senha))
+            return BadRequest("senha invalida");
+
+        _db.Usuarios.Remove(usuario);
+        _db.SaveChanges();
+
+        return Ok("Usuario deletado com sucesso");
     }
 }
